@@ -7,5 +7,5 @@
 }
 
 .notification-div {
-    @apply absolute top-10 right-0 z-10 w-[240px] bg-white border border-slate-300 h-[400px] overflow-y-auto rounded-xl shadow-2xl
+    @apply absolute top-10 right-0 z-20 w-[240px] bg-white border border-slate-300 h-[400px] overflow-y-auto rounded-xl shadow-2xl
 }

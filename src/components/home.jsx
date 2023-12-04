@@ -10,11 +10,7 @@ const Home = ({notify}) => {
       <div className='flex flex-row-reverse justify-between items-center p-4'>
         {/* FILTER DIV */}
         <div
-          className={
-            notify
-              ? 'flex justify-end cursor-pointer'
-              : 'z-10 flex justify-end cursor-pointer'
-          }
+        className='flex justify-end cursor-pointer z-10'
         >
           <div
             className={

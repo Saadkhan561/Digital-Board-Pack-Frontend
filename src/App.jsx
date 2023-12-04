@@ -9,6 +9,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route path='/' element={<Home />}/>
+          <Route path='card_details' element={<CardDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>
