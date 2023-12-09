@@ -11,7 +11,8 @@ export default {
         mob_screen: {'max':'630px'},
         mob_screen_closed: {'min':'630px'},
         menu_bar_mob: {'max':'400px'},
-        card_div_sm: {'max':'307px'}
+        card_div_sm: {'max':'307px'},
+        comments_icon: {'max': '1000px'}
       }
     },
   },
