@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDocUploadMutation } from "../hooks/mutation.hook";
 import * as Yup from "yup";
@@ -13,13 +13,13 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
 
   const initialValues = {
     title: "",
-    owner_name: "",
-    file: "",
+    // owner_name: "",
+    file: null,
   };
 
   const documentSchema = Yup.object({
     title: Yup.string().required("Title is required"),
-    owner_name: Yup.string().required("Owner name is required"),
+    // owner_name: Yup.string().required("Owner name is required"),
     file: Yup.string().required("File must be uploaded"),
   });
 
@@ -33,7 +33,8 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
 
   const { mutate } = useDocUploadMutation({
     onSuccess(data) {
-      reset();
+      console.log(data);
+      // reset();
       // resetForm();
       // setValues({ ...initialValues });
     },
@@ -47,15 +48,17 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({
     values: initialValues,
     resolver: yupResolver(documentSchema),
   });
-
+  const inputRef = useRef();
   const onSubmit = (data) => {
-    mutate({
-      ...data,
-    });
+    console.log(data.file);
+    // mutate({
+    //   file:data.
+    // });
   };
 
   return (
@@ -94,7 +97,7 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
               <p className="text-red-500 text-xs">{errors.title.message}</p>
             )}
           </div>
-          <div>
+          {/* <div>
             <label className="label" htmlFor="owner_name">
               Owner Name
             </label>
@@ -111,7 +114,7 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
                 {errors.owner_name.message}
               </p>
             )}
-          </div>
+          </div> */}
           <div>
             <label className="label" htmlFor="myfile">
               Upload your document:
@@ -119,8 +122,13 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
             <input
               className="mt-4 mb-4"
               type="file"
-              {...register("file")}
-            ></input>
+              {...register("file", {
+                onChange: (e) => {
+                  // console.log(e.target.files);
+                  setValue("file", e.target.files);
+                },
+              })}
+            />
             {errors.file && (
               <p className="text-red-500 text-xs">{errors.file.message}</p>
             )}
@@ -215,6 +223,7 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
                     className="cursor-pointer"
                     type="checkbox"
                     id="checkbox"
+                    onChange={(e) => setValue("file", e.target.files[0])}
                   />
                 </div>
                 <div className="flex justify-between mt-4 border-b pb-2">

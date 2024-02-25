@@ -1,4 +1,5 @@
-import { axios } from "../utils/axios";
+import { axios } from "@/utils/axios";
+
 
 export const register = async (data) => {
   // console.log(variables, "adsadasdadas");

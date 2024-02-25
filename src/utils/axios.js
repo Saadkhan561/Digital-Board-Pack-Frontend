@@ -1,13 +1,13 @@
 import globalAxios from "axios";
 
 export const axios = globalAxios.create({
-  baseURL: `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}`,
+  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}:${process.env.NEXT_PUBLIC_BACKEND_PORT}`,
 });
 
 axios.interceptors.request.use(
   function (config) {
     const user = localStorage.getItem(
-      process.env.REACT_APP_CURRENTUSER_LOCAL_KEY
+      process.env.NEXT_PUBLIC_CURRENTUSER_LOCAL_KEY
     );
     const parsed = user ? JSON.parse(user) : undefined;
     const token = parsed?.state?.currentUser?.token;

@@ -1,5 +1,6 @@
 import Login from "@/components/register/login";
 import SignUp from "@/components/register/signup";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const Register = () => {
@@ -7,6 +8,7 @@ const Register = () => {
   const updateLogin = (newLogin) => {
     setLogin(newLogin);
   };
+  const router = useRouter();
 
   return (
     <div className="border border-black h-screen flex justify-center items-center">
@@ -23,7 +25,7 @@ const Register = () => {
         </div>
         {/* {register()}
          */}
-        {isLogin ? (
+        {eval(router.query.login) ? (
           <Login prevLogin={isLogin} onUpdateLogin={updateLogin} />
         ) : (
           <SignUp prevLogin={isLogin} onUpdateLogin={updateLogin} />

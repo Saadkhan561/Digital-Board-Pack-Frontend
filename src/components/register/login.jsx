@@ -4,6 +4,7 @@ import { useLoginMutation } from "../../hooks/mutation.hook";
 import useUserStore from "../../stores/useUserStore";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "next/router";
 
 const Login = ({ onUpdateLogin, prevLogin }) => {
   const [isLogin, setLogin] = useState(prevLogin);
@@ -27,6 +28,7 @@ const Login = ({ onUpdateLogin, prevLogin }) => {
         const { pwd, ...rest } = userData;
         setCurrentUser({ ...rest, token: token });
         reset();
+        console.log({ data });
       }
 
       // console.log(data);
@@ -48,7 +50,8 @@ const Login = ({ onUpdateLogin, prevLogin }) => {
     console.log(data);
     mutate({ ...data });
   };
-  // console.log(errors);
+
+  const router = useRouter();
   return (
     <>
       {/* LOGIN DIV */}
@@ -117,9 +120,11 @@ const Login = ({ onUpdateLogin, prevLogin }) => {
           <p>
             Don't have an account?{" "}
             <a
-              onClick={() => setLogin(!isLogin)}
-              className="text-blue-500 underline"
-              href="#"
+              onClick={() => {
+                router.query.login = String(false);
+                router.push(router, undefined, { shallow: true });
+              }}
+              className="text-blue-500 underline cursor-pointer"
             >
               Sign Up
             </a>

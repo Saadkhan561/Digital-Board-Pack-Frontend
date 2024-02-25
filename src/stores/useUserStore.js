@@ -12,7 +12,7 @@ const useUserStore = create(
         }),
       logout: () => set({ currentUser: null }),
     }),
-    { name: process.env.REACT_CURRENTUSER_LOCAL_KEY }
+    { name: process.env.NEXT_PUBLIC_CURRENTUSER_LOCAL_KEY }
   )
 );
 

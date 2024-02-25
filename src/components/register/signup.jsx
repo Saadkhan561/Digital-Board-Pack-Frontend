@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import { useRegisterUser } from "../../hooks/mutation.hook";
-import useUserStore from "../../stores/useUserStore";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useUserStore from "@/stores/useUserStore";
+import { useRegisterUser } from "@/hooks/mutation.hook";
+import { useRouter } from "next/router";
 
 const SignUp = ({ onUpdateLogin, prevLogin }) => {
   const [isLogin, setLogin] = useState(prevLogin);
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const { currentUser } = useUserStore();
+  
 
   onUpdateLogin(isLogin);
 
@@ -38,10 +40,12 @@ const SignUp = ({ onUpdateLogin, prevLogin }) => {
       .required("Email is required"),
     designation: Yup.string().required("Designation is required"),
   });
-
+  const router = useRouter();
   const { mutate } = useRegisterUser({
     onSuccess(data) {
+      console.log(data);
       reset();
+      router.push("/register?login=true");
       // resetForm();
       // setValues({ ...initialValues });
     },
@@ -49,7 +53,7 @@ const SignUp = ({ onUpdateLogin, prevLogin }) => {
       console.log(error);
     },
   });
-  
+
   const {
     register,
     handleSubmit,
@@ -75,7 +79,9 @@ const SignUp = ({ onUpdateLogin, prevLogin }) => {
     });
   };
   // console.log(values);
+  // const redirectFunction = (query) => {
 
+  // }
   return (
     <div className="flex flex-col items-center h-[500px] w-[400px] menu_bar_mob:h-[450px] menu_bar_mob:w-[240px] p-4">
       <div className="text-3xl menu_bar_mob:text-xl font-semibold">
@@ -237,9 +243,12 @@ const SignUp = ({ onUpdateLogin, prevLogin }) => {
         <p>
           Already have an account?{" "}
           <a
-            onClick={() => setLogin(!isLogin)}
-            className="text-blue-500 underline"
-            href=""
+            onClick={() => {
+              router.query.login = String(true);
+              router.push(router, undefined, { shallow: true });
+            }}
+            className="text-blue-500 underline  cursor-pointer"
+           
           >
             Sign In
           </a>
