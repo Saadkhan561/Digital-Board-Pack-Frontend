@@ -1,8 +1,20 @@
-import {axios} from "../utils/axios";
+import { axios } from "../utils/axios";
 
-export const upload_doc = async (data) => {
+export const uploadDocument = async (data) => {
   try {
-    const res = await axios.post("/upload_doc", data);
+    console.log(data);
+    const res = await axios.post("/uploads", data);
+
+    return res.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const insertDocument = async (data) => {
+  try {
+    const { id, ...rest } = data;
+    const res = await axios.post(`/uploads/${id}`, rest);
 
     return res.data;
   } catch (error) {

@@ -1,6 +1,9 @@
 import { React, useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { useDocUploadMutation } from "../hooks/mutation.hook";
+import { useController, useForm } from "react-hook-form";
+import {
+  useDocUploadMutation,
+  useInsertDocumentMutation,
+} from "../hooks/mutation.hook";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -13,30 +16,38 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
 
   const initialValues = {
     title: "",
-    // owner_name: "",
     file: null,
   };
 
   const documentSchema = Yup.object({
     title: Yup.string().required("Title is required"),
-    // owner_name: Yup.string().required("Owner name is required"),
-    file: Yup.string().required("File must be uploaded"),
   });
-
-  // const { values, errors, handleChange, handleSubmit } = useFormik({
-  //   initialValues: initialValues,
-  //   validationSchema: documentSchema,
-  //   onSubmit: (values) => {
-  //     console.log(values);
-  //   },
-  // });
-
-  const { mutate } = useDocUploadMutation({
+  // aik aur mutation banay gi,
+  const { mutate: insertFile } = useInsertDocumentMutation({
+    onSuccess(data) {
+      // console.log(data);
+      // const filePath = data.path;
+      // const title = watch("title");
+      // Mutation({
+      //   filename: filePath,
+      //   title: title,
+      // });
+      reset();
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+  const { mutate: uploadFile } = useDocUploadMutation({
     onSuccess(data) {
       console.log(data);
-      // reset();
-      // resetForm();
-      // setValues({ ...initialValues });
+      const filePath = data.path;
+      const title = watch("title");
+      insertFile({filePath,title})
+      // Mutation({
+      //   filename: filePath,
+      //   title: title,
+      // });
     },
     onError(error) {
       console.log(error);
@@ -48,17 +59,16 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
+    watch,
   } = useForm({
     values: initialValues,
     resolver: yupResolver(documentSchema),
   });
-  const inputRef = useRef();
+
   const onSubmit = (data) => {
-    console.log(data.file);
-    // mutate({
-    //   file:data.
-    // });
+    const formData = new FormData();
+    formData.append("file", data.file[0]);
+    uploadFile(formData);
   };
 
   return (
@@ -116,18 +126,13 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
             )}
           </div> */}
           <div>
-            <label className="label" htmlFor="myfile">
+            <label className="label" htmlFor="file">
               Upload your document:
             </label>
             <input
-              className="mt-4 mb-4"
+              // className="mt-4 mb-4"
               type="file"
-              {...register("file", {
-                onChange: (e) => {
-                  // console.log(e.target.files);
-                  setValue("file", e.target.files);
-                },
-              })}
+              {...register("file")}
             />
             {errors.file && (
               <p className="text-red-500 text-xs">{errors.file.message}</p>
@@ -223,7 +228,6 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
                     className="cursor-pointer"
                     type="checkbox"
                     id="checkbox"
-                    onChange={(e) => setValue("file", e.target.files[0])}
                   />
                 </div>
                 <div className="flex justify-between mt-4 border-b pb-2">

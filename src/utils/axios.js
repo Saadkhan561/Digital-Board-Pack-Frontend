@@ -1,7 +1,7 @@
 import globalAxios from "axios";
 
 export const axios = globalAxios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}:${process.env.NEXT_PUBLIC_BACKEND_PORT}`,
+  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}`,
 });
 
 axios.interceptors.request.use(

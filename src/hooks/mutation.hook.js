@@ -1,4 +1,4 @@
-import { upload_doc } from "@/services/document.service";
+import { insertDocument, uploadDocument } from "@/services/document.service";
 import { login, register } from "@/services/user.service";
 import { useMutation } from "@tanstack/react-query";
 // import { login, register } from "../services/user.service";
@@ -21,8 +21,13 @@ export const useLoginMutation = (options) => {
 export const useDocUploadMutation = (options) => {
   return useMutation({
     ...options,
-    mutationFn: upload_doc,
-  })
-}
+    mutationFn: uploadDocument,
+  });
+};
 
-
+export const useInsertDocumentMutation = (option) => {
+  return useMutation({
+    ...option,
+    mutationFn: insertDocument,
+  });
+};
