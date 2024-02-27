@@ -6,11 +6,18 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 
+// FOR TOAST
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Login = ({ onUpdateLogin, prevLogin }) => {
   const [isLogin, setLogin] = useState(prevLogin);
   const [showpassword, setShowpassword] = useState(false);
   const { currentUser, setCurrentUser } = useUserStore();
   onUpdateLogin(isLogin);
+
+  // FOR TOAST
+  const notify = () => toast(username, "logged in successfully");
 
   const initialValues = {
     email: "",
@@ -21,6 +28,8 @@ const Login = ({ onUpdateLogin, prevLogin }) => {
     email: Yup.string().required("Email is required"),
     pwd: Yup.string().required("Password is required"),
   });
+
+  const router = useRouter();
   const { mutate } = useLoginMutation({
     onSuccess(data) {
       if (data) {
@@ -29,6 +38,7 @@ const Login = ({ onUpdateLogin, prevLogin }) => {
         setCurrentUser({ ...rest, token: token });
         reset();
         console.log({ data });
+        router.push("/");
       }
 
       // console.log(data);
@@ -51,9 +61,11 @@ const Login = ({ onUpdateLogin, prevLogin }) => {
     mutate({ ...data });
   };
 
-  const router = useRouter();
   return (
-    <>
+    <div className="relative">
+      <div className="absolute">
+        <ToastContainer />
+      </div>
       {/* LOGIN DIV */}
       <div className="flex flex-col items-center h-[500px] w-[400px] menu_bar_mob:h-[400px] menu_bar_mob:w-[240px] p-8">
         <div className="text-3xl menu_bar_mob:text-xl font-semibold">
@@ -131,7 +143,7 @@ const Login = ({ onUpdateLogin, prevLogin }) => {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -25,7 +25,11 @@ const Home = () => {
 
   return (
     <>
-      <div className={isNewDocument ? 'opacity-50 duration-200':'opacity-100 duration-200'}>
+      <div
+        className={
+          isNewDocument ? "opacity-50 duration-200" : "opacity-100 duration-200"
+        }
+      >
         <div className="flex flex-row-reverse justify-between items-center p-4">
           {/* FILTER DIV */}
           <div className="flex justify-end cursor-pointer z-10">
@@ -116,9 +120,7 @@ const Home = () => {
         </div>
       </div>
       {/* NEW DOCUMENT DIV */}
-      <div className="absolute top-0">
-        {renderNewDocument()}
-      </div>
+      <div className="absolute top-0">{renderNewDocument()}</div>
     </>
   );
 };

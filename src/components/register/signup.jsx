@@ -40,6 +40,7 @@ const SignUp = ({ onUpdateLogin, prevLogin }) => {
       .required("Email is required"),
     designation: Yup.string().required("Designation is required"),
   });
+  
   const router = useRouter();
   const { mutate } = useRegisterUser({
     onSuccess(data) {

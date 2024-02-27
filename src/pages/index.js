@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Card from "@/components/card";
 import NewDocument from "@/components/new_document";
 import Layout from "@/layout/UserLayout";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const [dropdown, setDropdown] = useState(false);
   const [filter, setFilter] = useState("All");
   const [isNewDocument, setNewDocument] = useState(false);
+//   const loggedIn = localStorage.getItem('loggen_in')
+//   const username = localStorage.getItem('username')
+
+// useEffect(() => {
+//   if (loggedIn == true) {
+//       notify()
+//   }
+// }, [])
+
+// const notify = () => toast(username, "logged in successfully!")
 
   const updateNewDocument = (newDocumentVal) => {
     setNewDocument(newDocumentVal);
@@ -26,7 +38,10 @@ const Home = () => {
 
   return (
     <Layout>
-      <>
+      <div>
+        {/* <div>
+          <ToastContainer />
+        </div> */}
         <div
           className={
             isNewDocument
@@ -125,7 +140,7 @@ const Home = () => {
         </div>
         {/* NEW DOCUMENT DIV */}
         <div className="absolute top-0">{renderNewDocument()}</div>
-      </>
+      </div>
     </Layout>
   );
 };

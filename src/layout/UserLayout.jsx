@@ -3,15 +3,20 @@ import Search from "@/components/layout/searchBar";
 import NewDocument from "@/components/new_document";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-// import Search from "./searchBar.jsx";
-// import Notification from "./notification.jsx";
-// import { Link, Outlet } from "react-router-dom";
-// import NewDocument from "../new_document.jsx";
+
+// FOR TOAST
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Layout({ children }) {
   const [menu, setMenu] = useState(false);
   const [notify, setNotify] = useState(false);
   const [isNewDocument, setNewDocument] = useState(false);
+
+  // const loggedIn = localStorage.getItem('loggen_in')
+  // const username = localStorage.getItem('username')
+
+const userToast = () => toast(username, "logged in successfully!")
 
   const updateNewDocument = (newDocumentVal) => {
     setNewDocument(newDocumentVal);
@@ -30,6 +35,9 @@ function Layout({ children }) {
 
   return (
     <div className="flex relative overflow-x-hidden h-screen">
+      <div>
+        <ToastContainer />
+      </div>
       {/* SIDE BAR */}
       <div
         className={

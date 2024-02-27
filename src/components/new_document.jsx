@@ -55,7 +55,7 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
   });
   const inputRef = useRef();
   const onSubmit = (data) => {
-    console.log(data.file);
+    console.log(data);
     // mutate({
     //   file:data.
     // });
@@ -122,12 +122,16 @@ const NewDocument = ({ prevNewDocument, updateNewDocument }) => {
             <input
               className="mt-4 mb-4"
               type="file"
-              {...register("file", {
-                onChange: (e) => {
-                  // console.log(e.target.files);
-                  setValue("file", e.target.files);
-                },
-              })}
+              // onChange={(e) => {
+              //   console.log("file", e.target.files[0].name)
+              // }}
+              {...register("file")}
+              // {...register("file", {
+              //   onChange: (e) => {
+              //     // console.log(e.target.files);
+              //     setValue("file", e.target.files[0]);
+              //   },
+              // })}
             />
             {errors.file && (
               <p className="text-red-500 text-xs">{errors.file.message}</p>
